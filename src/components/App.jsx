@@ -24,16 +24,17 @@ export default class App extends Component {
   };
 
   componentDidMount = () => {
-    if (localStorage.length) {
-      const storageContacts = JSON.parse(localStorage.getItem('contacts'));
+    const storageContacts = localStorage.getItem('contacts');
 
-      this.setState({ contacts: storageContacts });
+    if (storageContacts) {
+      const parsedContacts = JSON.parse(storageContacts);
+      this.setState({ contacts: parsedContacts });
     }
   };
 
   addNewContact = data => {
     const result = this.state.contacts.some(
-      contact => contact.name === data.name
+      contact => contact.name.toLowerCase() === data.name.toLowerCase()
     );
 
     if (result) {
@@ -50,6 +51,8 @@ export default class App extends Component {
   getVisibleContacts = () => {
     const { filter, contacts } = this.state;
     const normalizedFilter = filter.toLowerCase();
+
+    console.log(filter);
 
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
