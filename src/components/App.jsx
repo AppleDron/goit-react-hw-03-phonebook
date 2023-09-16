@@ -24,8 +24,11 @@ export default class App extends Component {
   };
 
   componentDidMount = () => {
-    const storageContacts = JSON.parse(localStorage.getItem('contacts'));
-    this.setState({ contacts: storageContacts });
+    if (localStorage.length) {
+      const storageContacts = JSON.parse(localStorage.getItem('contacts'));
+
+      this.setState({ contacts: storageContacts });
+    }
   };
 
   addNewContact = data => {
